@@ -144,12 +144,12 @@ def _run_rollout(
         trials, position=idx % 20, desc=f"seed {idx} ({planner.name})", disable=True
     ):
         s = env.reset()
-        goal = env.get_target()
+        goal = np.array(env.get_target())
         init_l2 = np.linalg.norm(goal - s[:2])
         done = False
         total_reward = 0
         s_vec = [s]
-
+        
         if goal.shape != s.shape:
             goal = np.concatenate([goal, 0 * goal], axis=0)
         w_vec = planner.get_plan(s, goal, n_wypt, support=ds_trunc)

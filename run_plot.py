@@ -9,6 +9,9 @@ from utils.plotting import (
 )
 from utils.training import load_seeds
 
+import matplotlib as mpl
+mpl.rcParams.update(mpl.rcParamsDefault)
+
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 print("Devices: ", jax.devices())

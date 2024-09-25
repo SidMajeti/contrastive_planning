@@ -7,7 +7,7 @@ RETRY_CMD = $(shell test $(RETRY) -gt 0 \
 )
 PREPARE = rm -f $(CONDA_PREFIX)/lib/python*/site-packages/mujoco_py/generated/mujocopy-buildlock.lock
 
-NSEED = 100
+NSEED = 10
 SEEDS = $(shell seq $(NSEED))
 TRAIN_DATA = contrastive.pkl vip.pkl pca.pkl none.pkl train_dataset.pkl val_dataset.pkl
 MODELS = $(foreach data,$(TRAIN_DATA),$(foreach seed,$(SEEDS),checkpoints/%/$(seed)/$(data)))
