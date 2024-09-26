@@ -90,4 +90,5 @@ if __name__ == "__main__":
             args.env,
             fig_path,
             title=args.rollout_title,
+            seed=args.seed
         )

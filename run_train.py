@@ -40,6 +40,8 @@ args = parser.parse_args()
 
 if __name__ == "__main__":
     key = jax.random.PRNGKey(args.seed)
+    print("environemtn name: ", args.env)
+
 
     key, rng = jax.random.split(key)
     train_dataset, val_dataset = utils.training.get_data(

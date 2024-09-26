@@ -48,9 +48,13 @@ class Agent:
         return w
 
     def get_plan(self, s, goal, n_wypt, support):
+        #support shape: 50000 x 4, first dim seems to be batch?
+        #support is probably all datapoints in some set of trajectories
         ds_embed = self(support)
         psi_w = self.get_waypoint(s, goal, n_wypt)
+        #psi shape: 20 x 32
         pdist = jnp.mean((psi_w[:, None] - ds_embed[None]) ** 2, axis=-1)
+        #find the nearest indices based on given support data; which seems like basically just some general planning data
         indices = jnp.argmin(pdist, axis=1)
         return support[indices]
 

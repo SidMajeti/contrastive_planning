@@ -25,7 +25,7 @@ ifdef DEBUG
 RETRY = 2
 NSEED = 10
 XTRAINARGS = --train_steps 100 --num_shuffle 1
-XEVALARGS = --trials 2 --jobs 5
+XEVALARGS = --trials 2 --jobs 1
 SAMPLES = $(shell seq 2)
 endif
 

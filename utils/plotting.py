@@ -175,6 +175,7 @@ def plot_rollout_scores(
     env,
     fig_path,
     title,
+    seed,
 ):
     data = load_data(loc, env, "results")
 
@@ -191,5 +192,5 @@ def plot_rollout_scores(
     plt.ylim([0, 1])
     plt.grid()
     plt.tight_layout()
-    plt.savefig(f"{fig_path}/rollout_scores.pdf", bbox_inches="tight")
-    print(f"Saved to {fig_path}/rollout_scores.pdf")
+    plt.savefig(f"{fig_path}/rollout_scores_{seed}.pdf", bbox_inches="tight")
+    print(f"Saved to {fig_path}/rollout_scores{seed}.pdf")

@@ -92,6 +92,8 @@ class ContrastiveAgent(agents.LearnedAgent):
         delta = jax.random.categorical(key=rng2, logits=log_probs)
         s = self.ds.observations[i]
         ns = self.ds.observations[i + delta]
+        
+        #state shape is 256 x 4
         return key, s, ns
 
     def _repr_fn(self, x):

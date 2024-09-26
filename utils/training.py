@@ -11,6 +11,7 @@ import pickle
 
 
 def get_data(env_name, key, split=0.8, shuffle=3):
+    print("name: ", env_name)
     env = gym.make(env_name)
     dataset = env.get_dataset()
     ds = Dataset(dataset, "all")

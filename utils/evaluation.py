@@ -154,6 +154,7 @@ def _run_rollout(
             goal = np.concatenate([goal, 0 * goal], axis=0)
         w_vec = planner.get_plan(s, goal, n_wypt, support=ds_trunc)
         w_vec = np.concatenate([w_vec, goal[None]], axis=0)
+        #waypoints x obs_shape
         w_index = 0
 
         for _ in range(max_episode_steps):
