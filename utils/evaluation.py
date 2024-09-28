@@ -17,11 +17,6 @@ def _run_mse_seed(planner: Agent, dataset, support, n_wypt, key):
     idx = jnp.floor(jnp.arange(1, n_wypt + 1) / (n_wypt + 1) * len(traj)).astype(int)
     obs_w = planner.get_plan(traj[0], traj[-1], n_wypt=n_wypt, support=support)
     err = jnp.sum((obs_w - traj[idx]) ** 2, axis=-1)
-
-    print("traj shape: ", traj.shape)
-    print("obs shape: ", obs_w.shape)
-    print("initial: ", traj[0])
-    print("end: ", traj[-1])
     
     return planner.name, err
 
@@ -158,7 +153,7 @@ def _run_rollout(
         
         if goal.shape != s.shape:
             goal = np.concatenate([goal, 0 * goal], axis=0)
-        w_vec = planner.get_plan(s, goal, n_wypt, support=ds_trunc)
+        w_vec = planner.get_plan(s, goal, n_wypt, support=ds_trunc) #this returns a set of nearest neighbor observations
         w_vec = np.concatenate([w_vec, goal[None]], axis=0)
         #waypoints x obs_shape
         w_index = 0

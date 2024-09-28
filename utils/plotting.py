@@ -92,7 +92,7 @@ def plot_plan(
             )
 
     plt.tight_layout()
-    save_path = f"{fig_path}/samples/plan_embedding{suffix}.pdf"
+    save_path = f"{fig_path}/samples/plan_embedding_{suffix}_{n_wypt}.pdf"
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     plt.savefig(save_path, bbox_inches="tight")
     print(f"Saved to {save_path}")
