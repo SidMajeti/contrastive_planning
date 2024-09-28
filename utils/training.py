@@ -11,11 +11,13 @@ import pickle
 
 
 def get_data(env_name, key, split=0.8, shuffle=3):
+    print("env name: ", env_name)
     env = gym.make(env_name)
     dataset = env.get_dataset()
     ds = Dataset(dataset, "all")
     if shuffle:
         ds = ds.shuffle(key, repeat=shuffle)
+    print("ds size: ", ds.size)
     num_train = int(ds.size * split)
     train_ds = ds.truncate(num_train, name="train_dataset")
     val_ds = ds.drop(num_train, name="val_dataset")
@@ -190,15 +192,15 @@ def train(agent, num_steps, prefix="figures", log_interval=20_000):
     return agent
 
 
-def save_data(data, name, env_name, loc):
-    print(f"Saving {name} for {env_name} at {loc}/{env_name}/{name}.pkl")
+def save_data(data, name, env_name, loc, seed, n_wypt):
+    print(f"Saving {name} for {env_name} at {loc}/{env_name}/{name}_{seed}.pkl")
     os.makedirs(f"{loc}/{env_name}", exist_ok=True)
-    pickle.dump(data, open(f"{loc}/{env_name}/{name}.pkl", "wb"))
+    pickle.dump(data, open(f"{loc}/{env_name}/{name}_{seed}_{n_wypt}.pkl", "wb"))
 
 
-def load_data(name, env_name, loc):
+def load_data(name, env_name, loc, seed, n_wypt):
     print(f"Loading {name} for {env_name}...")
-    data = pickle.load(open(f"{loc}/{env_name}/{name}.pkl", "rb"))
+    data = pickle.load(open(f"{loc}/{env_name}/{name}_{seed}_{n_wypt}.pkl", "rb"))
     return data
 
 

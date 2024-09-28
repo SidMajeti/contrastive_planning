@@ -98,8 +98,8 @@ def plot_plan(
     print(f"Saved to {save_path}")
 
 
-def barplot_mse(loc, env_name, fig_path, title):
-    mses, planners = load_data(loc, env_name, "results")
+def barplot_mse(loc, env_name, fig_path, title, seed = 0, n_wypt = 5):
+    mses, planners = load_data(loc, env_name, "results", seed, n_wypt)
     plt.figure(figsize=(10, 4))
 
     names = [planner_seeds[0].name for planner_seeds in planners]
@@ -143,12 +143,12 @@ def barplot_mse(loc, env_name, fig_path, title):
         plt.gca().spines["bottom"].set_visible(False)
         plt.gca().spines["left"].set_visible(False)
         plt.tight_layout()
-        plt.savefig(f"{fig_path}/plan_mse.pdf", bbox_inches="tight")
-        print(f"Saved to {fig_path}/plan_mse.pdf")
+        plt.savefig(f"{fig_path}/plan_mse_{seed}_{n_wypt}wpt.pdf", bbox_inches="tight")
+        print(f"Saved to {fig_path}/plan_mse_{seed}_{n_wypt}wpt.pdf")
 
 
-def plot_waypoint_mse(loc, env_name, fig_path, title):
-    mses, planners = load_data(loc, env_name, "results")
+def plot_waypoint_mse(loc, env_name, fig_path, title, seed = 0, n_wypt = 5):
+    mses, planners = load_data(loc, env_name, "results", seed, n_wypt)
     plt.figure()
     for planner_seeds in planners:
         planner = planner_seeds[0]
@@ -166,8 +166,8 @@ def plot_waypoint_mse(loc, env_name, fig_path, title):
     plt.xticks([i for i in range(1, len(mu) + 1)])
     plt.grid()
     plt.tight_layout()
-    plt.savefig(f"{fig_path}/waypoint_mse.pdf", bbox_inches="tight")
-    print(f"Saved to {fig_path}/waypoint_mse.pdf")
+    plt.savefig(f"{fig_path}/waypoint_mse_{seed}_{n_wypt}wpt.pdf", bbox_inches="tight")
+    print(f"Saved to {fig_path}/waypoint_mse_{seed}_{n_wypt}wpt.pdf")
 
 
 def plot_rollout_scores(
@@ -177,7 +177,7 @@ def plot_rollout_scores(
     title,
     seed,
 ):
-    data = load_data(loc, env, "results")
+    data = load_data(loc, env, "results", seed, 5)
 
     for planner_seeds, bins, mu, stderr in data:
         planner = planner_seeds[0]

@@ -18,6 +18,11 @@ def _run_mse_seed(planner: Agent, dataset, support, n_wypt, key):
     obs_w = planner.get_plan(traj[0], traj[-1], n_wypt=n_wypt, support=support)
     err = jnp.sum((obs_w - traj[idx]) ** 2, axis=-1)
 
+    print("traj shape: ", traj.shape)
+    print("obs shape: ", obs_w.shape)
+    print("initial: ", traj[0])
+    print("end: ", traj[-1])
+    
     return planner.name, err
 
 
@@ -31,6 +36,7 @@ def compute_plan_mse(
     n_wypt=5,
     trials=100,
     jobs=-1,
+    seed = 0,
 ):
     mses: dict = {planner_seeds[0].name: [] for planner_seeds in planners}
     keys = jax.random.split(key, trials)
@@ -43,7 +49,7 @@ def compute_plan_mse(
     ):
         mses[name].append(err)
 
-    save_data((mses, planners), loc, env, "results")
+    save_data((mses, planners), loc, env, "results", seed, n_wypt)
 
 
 def compute_rollout_scores(
@@ -68,7 +74,7 @@ def compute_rollout_scores(
         )
         data.append((planner_seeds, bins, mu, stderr))
 
-    save_data(data, loc, env, "results")
+    save_data(data, loc, env, "results", seed, n_wypt)
 
 
 def eval_planners(

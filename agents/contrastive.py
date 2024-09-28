@@ -44,8 +44,13 @@ class ContrastiveAgent(agents.LearnedAgent):
         return psi
 
     def loss_fn(self, params, x0, xT):
+        print("x0 shape: ", x0.shape)
+        print("xT shape: ", xT.shape)
         phi, _psi = self.repr_fn.apply(params, x0)
         _phi, psi = self.repr_fn.apply(params, xT)
+        
+        print("phi shape: ", phi.shape)
+        print("psi shape: ", psi.shape)
 
         l2 = (jnp.mean(psi**2) + jnp.mean(_psi**2)) / 2
         I = jnp.eye(self.batch_size)
@@ -59,6 +64,7 @@ class ContrastiveAgent(agents.LearnedAgent):
 
         loss = l_align + l_unif
 
+        #accuracy measures whether the positive pairs have the smallest l2 distance
         accuracy = jnp.mean(jnp.argmin(pdist, axis=1) == jnp.arange(self.batch_size))
         dual_loss = params["log_lambda"] * (self.c - jax.lax.stop_gradient(l2))
         metrics = (l_unif.mean(), l_align.mean(), accuracy, l2)

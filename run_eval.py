@@ -59,4 +59,5 @@ if __name__ == "__main__":
             trials=args.trials,
             key=jax.random.key(args.seed),
             jobs=args.jobs,
+            seed = args.seed
         )

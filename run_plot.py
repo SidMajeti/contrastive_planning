@@ -68,10 +68,12 @@ if __name__ == "__main__":
     if args.barplot:
         print("Plotting MSE barplot...")
         barplot_mse(
-            "plan_mse_1",
+            f"plan_mse_{args.n_wypt}",
             args.env,
             fig_path,
             title=args.mse_title,
+            seed = args.seed,
+            n_wypt = args.n_wypt
         )
 
     if args.waypoint_mse:
@@ -81,6 +83,8 @@ if __name__ == "__main__":
             args.env,
             fig_path,
             title=args.mse_title,
+            seed = args.seed,
+            n_wypt = args.n_wypt
         )
 
     if args.rollout:
