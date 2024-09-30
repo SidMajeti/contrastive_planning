@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
     train_datasets = load_seeds("train_dataset", args.env, "checkpoints")
     val_datasets = load_seeds("val_dataset", args.env, "checkpoints")
-
+        
     if args.rollout:
         print(f"Generating evaluation rollouts for {args.trials} trials...")
         compute_rollout_scores(

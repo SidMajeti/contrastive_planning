@@ -50,12 +50,16 @@ class ContrastiveAgent(agents.LearnedAgent):
         _phi, psi = self.repr_fn.apply(params, xT)
         
         print("phi shape: ", phi.shape)
+        #batch x 32
         print("psi shape: ", psi.shape)
+        #batch x 32
 
         l2 = (jnp.mean(psi**2) + jnp.mean(_psi**2)) / 2
         I = jnp.eye(self.batch_size)
         l_align = jnp.sum((phi - psi) ** 2, axis=1)
 
+        #computes l2 between batch elements; so targets and inputs from same batch should be close but from other batches should be far
+        
         pdist = jnp.mean((phi[:, None] - psi[None]) ** 2, axis=-1)
         l_unif = (
             jax.nn.logsumexp(-(pdist * (1 - I)), axis=1)
