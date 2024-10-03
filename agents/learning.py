@@ -20,6 +20,7 @@ class LearnedAgent(Agent):
         clip_grad=1.0,
         c=10.0,
         lam_init=1e-3,
+        lambd=1,
     ):
         super().__init__(rng, repr_dim, ds, batch_size)
 
@@ -35,6 +36,7 @@ class LearnedAgent(Agent):
         self.params["log_lambda"] = jnp.log(lam_init)
         self.grad_fn = jax.value_and_grad(self.loss_fn, has_aux=True)
         self.grad_fn = jax.jit(self.grad_fn)
+        self.lambd = lambd
 
         self.optimizer = optax.chain(
             optax.clip_by_global_norm(clip_grad), optax.adam(learning_rate=lr)

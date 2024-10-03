@@ -34,6 +34,7 @@ parser.add_argument("--use_rotation", action="store_true", default=False)
 parser.add_argument("--batch_size", type=int, default=256)
 parser.add_argument("--train_steps", type=int, default=100_000)
 parser.add_argument("--seed", type=int, default=0)
+parser.add_argument("--lambd", type=float, default=1.0)
 
 args = parser.parse_args()
 
@@ -56,6 +57,7 @@ if __name__ == "__main__":
         gamma=0.9,
         use_rotation=args.use_rotation,
         c=10.0,
+        lambd= args.lambd
     )
 
     vip_agent = agents.VIPAgent(
@@ -74,12 +76,12 @@ if __name__ == "__main__":
         rng=rng, repr_dim=args.repr_dim, ds=train_dataset, batch_size=args.batch_size
     )
 
-    fig_path = f"figures/{args.env}/training/{args.seed}"
+    fig_path = f"figures/{args.env}/training/{args.seed}_{args.lambd}"
     os.makedirs(fig_path, exist_ok=True)
     for agent in [contrastive_agent, vip_agent]:
         utils.training.train(agent, args.train_steps, prefix=f"{fig_path}")
 
     for agent in [contrastive_agent, vip_agent, pca_agent, no_agent]:
-        save_seed(agent, args.env, args.seed, "checkpoints")
-    save_seed(train_dataset, args.env, args.seed, "checkpoints")
-    save_seed(val_dataset, args.env, args.seed, "checkpoints")
+        save_seed(agent, args.env, args.seed, "checkpoints", args.lambd)
+    save_seed(train_dataset, args.env, args.seed, "checkpoints", args.lambd)
+    save_seed(val_dataset, args.env, args.seed, "checkpoints", args.lambd)

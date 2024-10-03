@@ -17,6 +17,11 @@ def get_data(env_name, key, split=0.8, shuffle=3):
     ds = Dataset(dataset, "all")
     if shuffle:
         ds = ds.shuffle(key, repeat=shuffle)
+    dataset['observations'] = dataset['observations'][:10000]
+    dataset['actions'] = dataset['actions'][:10000]
+    dataset['rewards'] = dataset['rewards'][:10000]
+    dataset['terminals'] = dataset['terminals'][:10000]
+    dataset['timeouts'] = dataset['timeouts'][:10000]
     print("ds size: ", ds.size)
     num_train = int(ds.size * split)
     train_ds = ds.truncate(num_train, name="train_dataset")
@@ -204,12 +209,12 @@ def load_data(name, env_name, loc, seed, n_wypt):
     return data
 
 
-def save_seed(agent, env_name, seed, loc):
+def save_seed(agent, env_name, seed, loc, lambd):
     print(
         f"Saving {agent.name} for {env_name} with seed {seed} at {loc}/{env_name}/{seed}/{agent.name}.pkl"
     )
-    os.makedirs(f"{loc}/{env_name}/{seed}", exist_ok=True)
-    pickle.dump(agent, open(f"{loc}/{env_name}/{seed}/{agent.name}.pkl", "wb"))
+    os.makedirs(f"{loc}/{env_name}/{seed}_{lambd}", exist_ok=True)
+    pickle.dump(agent, open(f"{loc}/{env_name}/{seed}_{lambd}/{agent.name}.pkl", "wb"))
 
 
 def load_seeds(name, env_name, loc):

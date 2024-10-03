@@ -66,7 +66,7 @@ class ContrastiveAgent(agents.LearnedAgent):
             + jax.nn.logsumexp(-(pdist.T * (1 - I)), axis=1)
         ) / 2.0
 
-        loss = l_align + l_unif
+        loss = l_align + self.lambd * l_unif
 
         #accuracy measures whether the positive pairs have the smallest l2 distance
         accuracy = jnp.mean(jnp.argmin(pdist, axis=1) == jnp.arange(self.batch_size))
